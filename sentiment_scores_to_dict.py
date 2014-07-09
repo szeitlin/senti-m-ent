@@ -10,12 +10,11 @@ def scores_to_dict():
 
     with open("AFINN-111.txt", 'r') as afinnfile:
 
-    	scores = {} # initialize an empty dictionary
+    	scores = {} 
 
     	for line in afinnfile:
-       		term, score  = line.split("\t")  # The file is tab-delimited. "\t" means "tab character"
-       		scores[term] = int(score)  # Convert the score to an integer.
-
+       		term, score  = line.split("\t")  
+       		scores[term] = int(score)  
     #print scores.items() # Print every (term, score) pair in the dictionary as one big list
 
     #write dict to a file
