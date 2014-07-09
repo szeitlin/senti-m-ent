@@ -19,35 +19,24 @@ def read_stream(droplet):
     p = re.compile(r'\W+') #try this simple way to start
 
     with open(droplet, 'r') as f:
-#	data = json.dump(f)
-
         for line in f:
-	    #string replace 'false' with False, because this is causing an error
+            data = json.loads(line) 
 
-	    #filled = string.replace(line, "null", "None")
-	    #filled = string.replace(filled, "true", "True")
-	    #filled = string.replace(filled, "false", "False")
-	    
-            data = json.loads(line) #skipkeys=True #tried adding skipkeys arg to deal with non-ascii characters (??) 
-
-	    print type(data)
-            pprint.pprint(data)
+	    #print type(data)
+            #pprint.pprint(data)
             
-            #find the text part of the json object
-
+	    tweet = data['text']
 	    
 	    #parse into words
 
-	    #words = p.split(#textpart)     #should return a list of words
-            #print words
+	    words = p.split(tweet)     #should return a list 
+            print words 		#curious to see if having that u in there matters, since it doesn't seem to be part of the string itself
   
 droplet = "snippet.txt"
 read_stream(droplet)
 
 
-#looks like the text part of the tweet is in the 4th level down, hashtags are 1st entry in 3rd tier (I think?)
 #for hashtags could use regex with \A for start of string
-
 
 
 #try: 
