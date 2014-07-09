@@ -19,6 +19,8 @@ def read_stream(droplet):
     p = re.compile(r'\W+') #try this simple way to start
 
     with open(droplet, 'r') as f:
+#	data = json.dump(f)
+
         for line in f:
 	    #string replace 'false' with False, because this is causing an error
 
@@ -26,7 +28,7 @@ def read_stream(droplet):
 	    #filled = string.replace(filled, "true", "True")
 	    #filled = string.replace(filled, "false", "False")
 	    
-            data = json.loads(line)
+            data = json.loads(line) #skipkeys=True #tried adding skipkeys arg to deal with non-ascii characters (??) 
 
 	    print type(data)
             pprint.pprint(data)
