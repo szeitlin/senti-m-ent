@@ -11,12 +11,7 @@ def read_stream(droplet):
 
     '''
 
-    #try regex to split, using \W for non-alphanumeric, i.e. punctuation, \s for whitespace between words
-
-    # use * for 0 or more
-    # use + for 1 or more
-
-    p = re.compile(r'\W+') #try this simple way to start
+    p = re.compile(r'\W+') 
 
     with open(droplet, 'r') as f:
         for line in f:
@@ -30,13 +25,13 @@ def read_stream(droplet):
 	    #parse into words
 
 	    words = p.split(tweet)     #should return a list 
-            print words 		#curious to see if having that u in there matters, since it doesn't seem to be part of the string itself
+            print words 		
   
 droplet = "snippet.txt"
 read_stream(droplet)
 
 
-#for hashtags could use regex with \A for start of string
+#for hashtags could use regex with \A for start of string?
 
 
 #try: 
