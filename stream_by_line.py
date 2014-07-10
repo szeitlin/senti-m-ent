@@ -9,8 +9,6 @@ def read_stream(droplet):
 
     '''
 
-    p = re.compile(r'\W+')
-
     with open(droplet, 'r') as f:
         for line in f:
             data = json.loads(line)
