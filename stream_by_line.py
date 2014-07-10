@@ -6,8 +6,6 @@ import re
 def read_stream(droplet):
     '''
     read 'output.txt' json file, line by line, using a generator.
-    argument 'howmany' = temp variable for number of lines to read
-    eventually want it to go all the way to the end of the file, I think (?) - check assignment details.
 
     '''
 
