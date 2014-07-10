@@ -17,13 +17,20 @@ def read_stream(droplet):
 
 
 
-def print_data(g):
-    for x in g:
-        print x
+def print_data(data):
+    for x in data:
+        try:
+            tweet = x['text']
+            print tweet
+
+        except KeyError:
+            pass
+
+
 
 
 
 #droplet = "snippet.txt"
 droplet = "problem_1_submission.txt"
-g = read_stream(droplet)
-print_data(g)
+data = read_stream(droplet)
+print_data(data)
