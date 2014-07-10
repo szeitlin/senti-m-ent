@@ -1,4 +1,3 @@
-#apply json.loads to each line in the file
 
 import json
 import re
@@ -19,16 +18,9 @@ def scores_to_dict():
 
         for line in afinnfile:
                 term, score  = line.split("\t")  
-                scores[term] = int(score)  
-    #print scores.items() # Print every (term, score) pair in the dictionary as one big list
-
-    with open("scores_dict.py", 'w') as f:
-        f.seek(0)
-        scored = str(scores) #convert from dict to avoid buffer error
-        f.write(scored)
+                scores[term] = int(score)
     
     afinnfile.close()
-    f.close()
 
     return scores
 
@@ -55,15 +47,14 @@ def split_stream(data):
     for x in data:
         try:
             tweet = x['text']
-            words = p.split(tweet)     #should return a list
-            print words
+            tweetobj = p.split(tweet)     #should return a list
+            yield tweetobj
 
         except KeyError:
             pass
 
 
-
-def convert_and_compare(words, scores):
+def convert_and_compare(tweetobj, scores):
     '''
     for each word, everything ascii and lowercase
     look up individual word(str) in the scores_dict
@@ -71,13 +62,12 @@ def convert_and_compare(words, scores):
 
     '''
     scorelist = []
+    print tweetobj
 
-    with open("tweets.py", 'r') as words:
-
-    #convert to lowercase before comparing
-        for word in words:
+    for wordlist in tweetobj:
+        for word in wordlist:
             word = word.encode('ascii', 'ignore') #change from unicode to be able to operate on strings
-            word = word.lower()			#get rid of capital letters
+            word = word.lower()			          #get rid of capital letters
             if word in scores.keys():
                scorelist.append(scores[word])
             else:
@@ -90,10 +80,10 @@ def convert_and_compare(words, scores):
 #droplet = "testfile_other.txt"
 droplet = "problem_1_submission.txt"
 data = read_stream(droplet)
-split_stream(data)
+tweetobj = split_stream(data)
 
-#scores = scores_to_dict()
-#scorelist = convert_and_compare(words, scores)
+scores = scores_to_dict()
+scorelist = convert_and_compare(tweetobj, scores)
 
 
 #sum the scores
