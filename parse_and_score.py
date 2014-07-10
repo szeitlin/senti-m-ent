@@ -61,20 +61,23 @@ def convert_and_compare(tweetobj, scores):
     returns a list of scores (int)
 
     '''
-    scorelist = []
-    print tweetobj
 
     for wordlist in tweetobj:
+        scorelist = []
         for word in wordlist:
             word = word.encode('ascii', 'ignore') #change from unicode to be able to operate on strings
             word = word.lower()			          #get rid of capital letters
             if word in scores.keys():
-               scorelist.append(scores[word])
+                scorelist.append(scores[word])
             else:
-                continue
+                scorelist.append(0)
+        result = sum(scorelist)
+        #print scorelist
+        yield result
 
-    print scorelist
-    return scorelist
+def print_result(result):
+    for x in result:
+        print x
 
 #droplet = "snippet.txt"
 #droplet = "testfile_other.txt"
@@ -83,13 +86,9 @@ data = read_stream(droplet)
 tweetobj = split_stream(data)
 
 scores = scores_to_dict()
-scorelist = convert_and_compare(tweetobj, scores)
+result = convert_and_compare(tweetobj, scores)
+print_result(result)
 
-
-#sum the scores
-
-
-#return the scores one line at a time
 
 
 
