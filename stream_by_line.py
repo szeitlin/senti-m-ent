@@ -3,7 +3,7 @@ __author__ = 'szeitlin'
 import json
 import re
 
-def read_stream(droplet, howmany):
+def read_stream(droplet):
     '''
     read 'output.txt' json file, line by line, using a generator.
     argument 'howmany' = temp variable for number of lines to read
@@ -14,7 +14,6 @@ def read_stream(droplet, howmany):
     p = re.compile(r'\W+')
 
     with open(droplet, 'r') as f:
-        line = range(0, howmany)
         for line in f:
             data = json.loads(line)
             yield data
@@ -30,5 +29,5 @@ def print_data(g):
 
 #droplet = "snippet.txt"
 droplet = "problem_1_submission.txt"
-g = read_stream(droplet, 10)
+g = read_stream(droplet)
 print_data(g)
