@@ -1,9 +1,7 @@
 #apply json.loads to each line in the file
 
 import json
-import pprint
 import re
-import string
 
 def scores_to_dict():
     '''
@@ -24,8 +22,6 @@ def scores_to_dict():
                 scores[term] = int(score)  
     #print scores.items() # Print every (term, score) pair in the dictionary as one big list
 
-    #write dict to a file
-        
     with open("scores_dict.py", 'w') as f:
         f.seek(0)
         scored = str(scores) #convert from dict to avoid buffer error
@@ -34,33 +30,38 @@ def scores_to_dict():
     afinnfile.close()
     f.close()
 
-    return scores 
+    return scores
 
 def read_stream(droplet):
     '''
-    read 'output.txt' json file, or similar. 
+    read 'output.txt' json file, line by line, using a generator.
 
     '''
 
-    p = re.compile(r'\W+') 
+
 
     with open(droplet, 'r') as f:
         for line in f:
-            data = json.loads(line) 
+            data = json.loads(line)
+            yield data
 
-	    #print type(data)
-            #pprint.pprint(data)
+def split_stream(data):
+    '''
+    find the tweets in the lines of json objects, and split them into word lists.
 
-            try:
-	        tweet = data['text']
-	        words = p.split(tweet)     #should return a list 
-		print words
-    	        continue
+    '''
+    p = re.compile(r'\W+')
 
- 	    except KeyError:
-		continue
-  
-#for hashtags could use regex with \A for start of string?
+    for x in data:
+        try:
+            tweet = x['text']
+            words = p.split(tweet)     #should return a list
+            print words
+
+        except KeyError:
+            pass
+
+
 
 def convert_and_compare(words, scores):
     '''
@@ -71,12 +72,16 @@ def convert_and_compare(words, scores):
     '''
     scorelist = []
 
+    with open("tweets.py", 'r') as words:
+
     #convert to lowercase before comparing
-    for word in words:
-        word = word.encode('ascii', 'ignore') #change from unicode to be able to operate on strings
-        word = word.lower()			#get rid of capital letters
-        if word in scores.keys():
-           scorelist.append(scores[word])
+        for word in words:
+            word = word.encode('ascii', 'ignore') #change from unicode to be able to operate on strings
+            word = word.lower()			#get rid of capital letters
+            if word in scores.keys():
+               scorelist.append(scores[word])
+            else:
+                continue
 
     print scorelist
     return scorelist
@@ -84,8 +89,10 @@ def convert_and_compare(words, scores):
 #droplet = "snippet.txt"
 #droplet = "testfile_other.txt"
 droplet = "problem_1_submission.txt"
-words = read_stream(droplet)
-#scores = scores_to_dict()	
+data = read_stream(droplet)
+split_stream(data)
+
+#scores = scores_to_dict()
 #scorelist = convert_and_compare(words, scores)
 
 
